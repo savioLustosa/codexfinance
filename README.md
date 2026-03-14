@@ -44,7 +44,7 @@ docs/
 
 1. Instale dependências:
    ```bash
-   npm install
+   cp .env.example .env
    ```
 2. Configure ambiente do backend:
    ```bash
