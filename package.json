@@ -1,21 +1,30 @@
 {
-  "name": "codexfinance",
-  "version": "1.0.0",
-  "description": "SaaS de gestão financeira pessoal",
-  "main": "backend/server.js",
+  "name": "saas-project-hub",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Plataforma SaaS de gestão de projetos e equipes com Supabase",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "node backend/server.js",
-    "test": "node --test"
+    "dev": "npm-run-all --parallel dev:api dev:web",
+    "dev:api": "npm --workspace @hub/api run dev",
+    "dev:web": "npm --workspace @hub/web run dev",
+    "build": "npm-run-all build:shared build:api build:web",
+    "build:shared": "npm --workspace @hub/shared run build",
+    "build:api": "npm --workspace @hub/api run build",
+    "build:web": "npm --workspace @hub/web run build",
+    "lint": "npm-run-all lint:api lint:web",
+    "lint:api": "npm --workspace @hub/api run lint",
+    "lint:web": "npm --workspace @hub/web run lint",
+    "typecheck": "npm-run-all typecheck:shared typecheck:api typecheck:web",
+    "typecheck:shared": "npm --workspace @hub/shared run typecheck",
+    "typecheck:api": "npm --workspace @hub/api run typecheck",
+    "typecheck:web": "npm --workspace @hub/web run typecheck"
   },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-rate-limit": "^7.4.0",
-    "express-validator": "^7.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "pg": "^8.12.0"
+  "devDependencies": {
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.6.3"
   }
 }

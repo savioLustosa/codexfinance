@@ -1,57 +1,63 @@
-# Finance SaaS
+# ProjectHub SaaS
 
-Sistema SaaS de gestão financeira pessoal com arquitetura MVC, API REST, autenticação JWT e frontend em HTML/CSS/JS com Chart.js.
+Plataforma SaaS para gestão de projetos e equipes (inspirada em monday.com, Asana e ClickUp), com arquitetura moderna e foco em performance, estabilidade e escalabilidade.
 
-## Stack
-- **Frontend:** HTML, CSS, Vanilla JS, Chart.js
-- **Backend:** Node.js + Express
-- **Banco:** PostgreSQL (Supabase)
-- **Auth:** JWT com hash de senha (bcrypt)
+## Stack escolhida
+
+- **Frontend:** Next.js 15 + React + TypeScript
+- **Backend:** Fastify + TypeScript + Zod
+- **Banco:** Supabase Postgres
+- **Monorepo:** NPM workspaces
 
 ## Estrutura
 
 ```txt
-backend/
-  controllers/
-  routes/
-  models/
-  middleware/
-frontend/
-  pages/
-  components/
-  styles/
-  scripts/
+apps/
+  api/      # API REST
+  web/      # Frontend web
+packages/
+  shared/   # Tipos e contratos comuns
+supabase/
+  migrations/
+docs/
 ```
 
-## Funcionalidades
-- Cadastro, login, logout e recuperação de senha
-- CRUD de transações (receita/despesa)
-- Categorias padrão + personalizadas
-- Dashboard com saldo, receitas/despesas mensais e gráficos
-- Metas financeiras com progresso e aporte
-- Exportação CSV e PDF (impressão)
-- UI responsiva mobile-first com modo dark
-- PWA instalável (manifest + service worker)
-- Segurança com validação de dados + rate limit + JWT + hash de senha
+## Funcionalidades base implementadas
 
-## Configuração
+- Autenticação por JWT
+- Gestão de workspaces (multi-tenant)
+- Gestão de projetos
+- Gestão de tasks com atualização de status
+- Gestão de equipe (listagem e convite)
+- Dashboard e páginas operacionais no frontend
+- Healthcheck para observabilidade
+
+## Banco de dados (Supabase)
+
+1. Crie um projeto no Supabase e copie a `DATABASE_URL`.
+2. Execute a migration:
+   ```bash
+   psql "$DATABASE_URL" -f supabase/migrations/0001_init_project_hub.sql
+   ```
+
+## Rodando localmente
+
 1. Instale dependências:
    ```bash
    npm install
    ```
-2. Crie um `.env`:
-   ```env
-   PORT=3000
-   DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DB
-   JWT_SECRET=super-secret
-   NODE_ENV=development
-   ```
-3. Rode o schema no PostgreSQL/Supabase:
+2. Configure ambiente do backend:
    ```bash
-   psql "$DATABASE_URL" -f backend/schema.sql
+   cp apps/api/.env.example apps/api/.env
    ```
-4. Execute:
+3. Execute:
    ```bash
-   npm start
+   npm run dev
    ```
-5. Abra `http://localhost:3000`.
+4. Web: `http://localhost:3000`
+5. API: `http://localhost:4000/api/health`
+
+## Documentação adicional
+
+- `docs/market-analysis.md`
+- `docs/architecture.md`
