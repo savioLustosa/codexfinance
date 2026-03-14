@@ -1,42 +1,34 @@
-# Pesquisa de mercado e posicionamento técnico
+# Benchmark de mercado (SaaS de gestão de projetos e equipe)
 
-## Ferramentas analisadas
+## Referências analisadas
 
-### Monday.com
-- **Pontos fortes:** automações nativas, múltiplas visualizações (kanban, timeline, workload), UX madura para operações.
-- **Pontos fracos:** custo cresce rápido por usuário e por recursos enterprise.
+- **monday.com:** UX visual forte, automações, integrações e múltiplas visualizações (board, timeline, workload).
+- **Asana:** gestão de portfólio, metas e workflows maduros para operações cross-team.
+- **ClickUp:** alta customização, docs embutidos, metas e dashboards avançados.
+- **Jira:** excelente rastreabilidade e governança para times de produto/engenharia.
 
-### ClickUp
-- **Pontos fortes:** alto nível de customização, docs e tarefas no mesmo ecossistema.
-- **Pontos fracos:** curva de aprendizado elevada para equipes menos técnicas.
+## Requisitos para competir em nível SaaS
 
-### Asana
-- **Pontos fortes:** simplicidade para gestão por objetivos e tracking de entregas.
-- **Pontos fracos:** menos flexível para fluxos muito customizados.
+1. **Arquitetura multi-tenant** por workspace/organização.
+2. **RBAC avançado** (owner/admin/manager/member).
+3. **Módulos centrais**: projetos, tasks, comentários, time, convites, auditoria.
+4. **Escalabilidade horizontal** no backend com API stateless.
+5. **Observabilidade** (healthcheck, logs estruturados, métricas).
+6. **Frontend rápido** com SSR/streaming e boa experiência em grandes volumes.
 
-### Linear + Jira (referência de engenharia)
-- **Pontos fortes:** velocidade, confiabilidade e rastreabilidade robusta para times de produto/engenharia.
-- **Pontos fracos:** Jira pode ficar complexo para áreas não técnicas.
+## Stack recomendada para este projeto
 
-## Recomendação de stack para SaaS robusto
+### Frontend: **Next.js (React + TypeScript)**
+- Excelente performance com rendering híbrido (SSR/SSG/ISR).
+- Ecossistema robusto para dashboards e produto SaaS.
+- Escala bem com design system e modularização por feature.
 
-### Frontend recomendado: **Next.js (App Router) + React + TypeScript**
-- Excelente performance com Server Components e cache inteligente.
-- Estrutura produtiva para produto SaaS (painéis, páginas públicas, auth e rotas protegidas).
-- Ecossistema muito maduro para integração com Supabase.
+### Backend: **Fastify + TypeScript**
+- Alta performance por request (ótimo para APIs B2B).
+- Tipagem forte e validação via Zod.
+- Estrutura simples para modularização e evolução para microserviços.
 
-### Backend recomendado: **Node.js + Fastify + TypeScript**
-- Fastify oferece baixa latência e boa escalabilidade horizontal.
-- Estrutura modular facilita domínio por contexto (auth, projetos, tarefas, equipes).
-- Compatível com filas, eventos e arquitetura orientada a domínio no crescimento.
-
-### Banco e Auth: **Supabase (PostgreSQL + Auth + RLS)**
-- PostgreSQL gerenciado com recursos avançados.
-- Autenticação pronta e segura com JWT.
-- RLS reduz risco de vazamento multi-tenant.
-
-## Decisão arquitetural adotada neste projeto
-- **Frontend:** Next.js 15 + TypeScript.
-- **Backend:** Fastify + TypeScript com API REST modular.
-- **Shared contracts:** pacote `@cedex/shared` com schemas Zod.
-- **Dados:** Supabase com migrations SQL e RLS habilitado por entidade.
+### Banco: **Supabase Postgres**
+- Postgres gerenciado, com backup e tooling pronto.
+- Suporte a SQL avançado, índices, triggers e extensões.
+- Fácil evolução para RLS e realtime conforme maturidade do produto.

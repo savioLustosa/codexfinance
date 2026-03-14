@@ -1,60 +1,63 @@
-# Cedex WorkSuite
+# ProjectHub SaaS
 
-SaaS de gestão de projetos e equipes inspirado em Monday.com/ClickUp, com foco em velocidade, estabilidade e escalabilidade.
+Plataforma SaaS para gestão de projetos e equipes (inspirada em monday.com, Asana e ClickUp), com arquitetura moderna e foco em performance, estabilidade e escalabilidade.
 
-## Arquitetura
+## Stack escolhida
 
-- `apps/frontend`: Next.js 15 (App Router) para dashboard, área pública e UX de produto.
-- `apps/backend`: API Fastify modular (auth, teams, projects, tasks, users).
-- `packages/shared`: contratos compartilhados (`zod`) entre front e back.
-- `supabase/migrations`: esquema SQL + políticas RLS para multi-tenant seguro.
-- `docs/market-analysis.md`: pesquisa comparativa e justificativa de stack.
+- **Frontend:** Next.js 15 + React + TypeScript
+- **Backend:** Fastify + TypeScript + Zod
+- **Banco:** Supabase Postgres
+- **Monorepo:** NPM workspaces
 
-## Stack recomendada (adotada)
+## Estrutura
 
-- **Frontend:** Next.js + React + TypeScript
-- **Backend:** Fastify + TypeScript
-- **Banco/Auth:** Supabase PostgreSQL + Auth + RLS
+```txt
+apps/
+  api/      # API REST
+  web/      # Frontend web
+packages/
+  shared/   # Tipos e contratos comuns
+supabase/
+  migrations/
+docs/
+```
+
+## Funcionalidades base implementadas
+
+- Autenticação por JWT
+- Gestão de workspaces (multi-tenant)
+- Gestão de projetos
+- Gestão de tasks com atualização de status
+- Gestão de equipe (listagem e convite)
+- Dashboard e páginas operacionais no frontend
+- Healthcheck para observabilidade
+
+## Banco de dados (Supabase)
+
+1. Crie um projeto no Supabase e copie a `DATABASE_URL`.
+2. Execute a migration:
+   ```bash
+   psql "$DATABASE_URL" -f supabase/migrations/0001_init_project_hub.sql
+   ```
 
 ## Rodando localmente
 
-1. Copie o arquivo de ambiente:
+1. Instale dependências:
    ```bash
    cp .env.example .env
    ```
-2. Instale dependências:
+2. Configure ambiente do backend:
    ```bash
-   npm install
+   cp apps/api/.env.example apps/api/.env
    ```
-3. Inicie o backend:
+3. Execute:
    ```bash
-   npm run dev:backend
+   npm run dev
    ```
-4. Em outro terminal, inicie o frontend:
-   ```bash
-   npm run dev:frontend
-   ```
+4. Web: `http://localhost:3000`
+5. API: `http://localhost:4000/api/health`
 
-## Endpoints principais (backend)
+## Documentação adicional
 
-- `GET /api/health`
-- `POST /api/auth/signup`
-- `POST /api/auth/signin`
-- `GET /api/users/me`
-- `GET|POST /api/teams`
-- `GET|POST /api/projects`
-- `GET|POST /api/tasks`
-
-## Boas práticas aplicadas
-
-- Organização por domínio e separação de responsabilidades.
-- Tipagem forte em toda a aplicação.
-- Contratos compartilhados com validação (`zod`).
-- Base pronta para CI/CD e escalabilidade horizontal.
-
-## Versionamento
-
-- Versão atual inicial para testes: `0.2.0`.
-- Validação pré-release local: `npm run release:check`.
-- Pipeline de CI no GitHub Actions: `.github/workflows/ci.yml`.
-- Guia de publicação/tags: `docs/github-publish.md`.
+- `docs/market-analysis.md`
+- `docs/architecture.md`

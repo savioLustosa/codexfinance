@@ -1,24 +1,31 @@
-import { z } from 'zod';
+export type Role = 'owner' | 'admin' | 'manager' | 'member';
 
-export const projectStatusSchema = z.enum(['backlog', 'active', 'blocked', 'done']);
+export type TaskStatus = 'backlog' | 'todo' | 'in_progress' | 'review' | 'done';
 
-export const createProjectSchema = z.object({
-  name: z.string().min(3).max(120),
-  description: z.string().max(1500).optional(),
-  status: projectStatusSchema.default('backlog'),
-  startDate: z.string().optional(),
-  endDate: z.string().optional(),
-  teamId: z.string().uuid()
-});
+export interface Workspace {
+  id: string;
+  name: string;
+  slug: string;
+  plan: 'free' | 'pro' | 'enterprise';
+}
 
-export const createTaskSchema = z.object({
-  projectId: z.string().uuid(),
-  title: z.string().min(3).max(200),
-  description: z.string().max(1000).optional(),
-  assigneeId: z.string().uuid().optional(),
-  dueDate: z.string().optional(),
-  priority: z.enum(['low', 'medium', 'high', 'critical']).default('medium')
-});
+export interface Project {
+  id: string;
+  workspaceId: string;
+  name: string;
+  description: string;
+  status: 'planning' | 'active' | 'on_hold' | 'completed';
+  startDate: string;
+  dueDate: string;
+}
 
-export type CreateProjectInput = z.infer<typeof createProjectSchema>;
-export type CreateTaskInput = z.infer<typeof createTaskSchema>;
+export interface Task {
+  id: string;
+  projectId: string;
+  title: string;
+  description: string;
+  status: TaskStatus;
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  dueDate: string;
+  assigneeId: string | null;
+}
