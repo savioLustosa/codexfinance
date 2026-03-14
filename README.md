@@ -1,57 +1,60 @@
-# Finance SaaS
+# Cedex WorkSuite
 
-Sistema SaaS de gestão financeira pessoal com arquitetura MVC, API REST, autenticação JWT e frontend em HTML/CSS/JS com Chart.js.
+SaaS de gestão de projetos e equipes inspirado em Monday.com/ClickUp, com foco em velocidade, estabilidade e escalabilidade.
 
-## Stack
-- **Frontend:** HTML, CSS, Vanilla JS, Chart.js
-- **Backend:** Node.js + Express
-- **Banco:** PostgreSQL (Supabase)
-- **Auth:** JWT com hash de senha (bcrypt)
+## Arquitetura
 
-## Estrutura
+- `apps/frontend`: Next.js 15 (App Router) para dashboard, área pública e UX de produto.
+- `apps/backend`: API Fastify modular (auth, teams, projects, tasks, users).
+- `packages/shared`: contratos compartilhados (`zod`) entre front e back.
+- `supabase/migrations`: esquema SQL + políticas RLS para multi-tenant seguro.
+- `docs/market-analysis.md`: pesquisa comparativa e justificativa de stack.
 
-```txt
-backend/
-  controllers/
-  routes/
-  models/
-  middleware/
-frontend/
-  pages/
-  components/
-  styles/
-  scripts/
-```
+## Stack recomendada (adotada)
 
-## Funcionalidades
-- Cadastro, login, logout e recuperação de senha
-- CRUD de transações (receita/despesa)
-- Categorias padrão + personalizadas
-- Dashboard com saldo, receitas/despesas mensais e gráficos
-- Metas financeiras com progresso e aporte
-- Exportação CSV e PDF (impressão)
-- UI responsiva mobile-first com modo dark
-- PWA instalável (manifest + service worker)
-- Segurança com validação de dados + rate limit + JWT + hash de senha
+- **Frontend:** Next.js + React + TypeScript
+- **Backend:** Fastify + TypeScript
+- **Banco/Auth:** Supabase PostgreSQL + Auth + RLS
 
-## Configuração
-1. Instale dependências:
+## Rodando localmente
+
+1. Copie o arquivo de ambiente:
+   ```bash
+   cp .env.example .env
+   ```
+2. Instale dependências:
    ```bash
    npm install
    ```
-2. Crie um `.env`:
-   ```env
-   PORT=3000
-   DATABASE_URL=postgresql://USER:PASSWORD@HOST:5432/DB
-   JWT_SECRET=super-secret
-   NODE_ENV=development
-   ```
-3. Rode o schema no PostgreSQL/Supabase:
+3. Inicie o backend:
    ```bash
-   psql "$DATABASE_URL" -f backend/schema.sql
+   npm run dev:backend
    ```
-4. Execute:
+4. Em outro terminal, inicie o frontend:
    ```bash
-   npm start
+   npm run dev:frontend
    ```
-5. Abra `http://localhost:3000`.
+
+## Endpoints principais (backend)
+
+- `GET /api/health`
+- `POST /api/auth/signup`
+- `POST /api/auth/signin`
+- `GET /api/users/me`
+- `GET|POST /api/teams`
+- `GET|POST /api/projects`
+- `GET|POST /api/tasks`
+
+## Boas práticas aplicadas
+
+- Organização por domínio e separação de responsabilidades.
+- Tipagem forte em toda a aplicação.
+- Contratos compartilhados com validação (`zod`).
+- Base pronta para CI/CD e escalabilidade horizontal.
+
+## Versionamento
+
+- Versão atual inicial para testes: `0.2.0`.
+- Validação pré-release local: `npm run release:check`.
+- Pipeline de CI no GitHub Actions: `.github/workflows/ci.yml`.
+- Guia de publicação/tags: `docs/github-publish.md`.

@@ -1,21 +1,20 @@
 {
-  "name": "codexfinance",
-  "version": "1.0.0",
-  "description": "SaaS de gestão financeira pessoal",
-  "main": "backend/server.js",
+  "name": "cedex-worksuite",
+  "private": true,
+  "version": "0.2.0",
+  "description": "Plataforma SaaS de gestão de projetos e equipes com Supabase",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "node backend/server.js",
-    "test": "node --test"
-  },
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-rate-limit": "^7.4.0",
-    "express-validator": "^7.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "pg": "^8.12.0"
+    "dev": "npm run dev --workspace=@cedex/frontend & npm run dev --workspace=@cedex/backend",
+    "dev:frontend": "npm run dev --workspace=@cedex/frontend",
+    "dev:backend": "npm run dev --workspace=@cedex/backend",
+    "build": "npm run build --workspaces",
+    "lint": "npm run lint --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "release:check": "npm run lint && npm run typecheck && npm run test && npm run build"
   }
 }
